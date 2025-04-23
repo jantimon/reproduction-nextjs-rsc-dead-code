@@ -26,3 +26,5 @@ This is a minimal reproduction with just 20 lines of code demonstrating the issu
 - A server component (`page.tsx`)
 - A client component (`client.tsx`)
 - An SWC transform via next-yak
+
+![Output preview](https://github.com/user-attachments/assets/30a1a22e-7ffe-4243-837b-aec4f517fa62)

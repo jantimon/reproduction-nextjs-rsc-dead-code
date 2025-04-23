@@ -14,15 +14,9 @@ This increases bundle size unnecessarily
 3. Run `npm run build`
 4. Examine the generated client bundle in `.next/static/chunks/app/page-[hash].js`
 
-You'll find that server-only code (like the string "Hello" from the RSC component) is included in the client JavaScript bundle, even though it should be eliminated.
+# Reproduction
 
-## Analysis
-
-In a typical Next.js RSC setup, dead code elimination should automatically remove server-only code from client bundles. However, when using SWC plugins that transform JSX (in this case, `next-yak`), this optimization fails
-
-## Technical Details
-
-This is a minimal reproduction with just 20 lines of code demonstrating the issue:
+This reproduction is only 20 lines of code:
 - A server component (`page.tsx`)
 - A client component (`client.tsx`)
 - An SWC transform via next-yak

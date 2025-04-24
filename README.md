@@ -1,11 +1,12 @@
 # Next.js RSC Dead Code Elimination Issue
 
-This repository demonstrates an issue with React Server Components (RSC) dead code elimination in Next.js when using SWC plugins like next-yak
+This repository demonstrates an issue with React Server Components (RSC) dead code elimination in Next.js when using CSS modules.
 
 ## The Issue
 
-When using SWC plugins that transform JSX (like next-yak for CSS-in-JS), server-only code is incorrectly included in client bundles.
-This increases bundle size unnecessarily
+When using CSS modules with server components, the CSS module class name mapping is incorrectly included in client bundles, even when only referenced by server components.
+
+This increases bundle size unnecessarily.
 
 ### Reproduction Steps
 
@@ -14,15 +15,24 @@ This increases bundle size unnecessarily
 3. Run `npm run build`
 4. Examine the generated client bundle in `.next/static/chunks/app/page-[hash].js`
 
-You'll find that server-only code (like the string "Hello" from the RSC component) is included in the client JavaScript bundle, even though it should be eliminated.
+You'll find that CSS module class name mappings (like `headline: "page_headline__b1Dvh"`) are included in the client JavaScript bundle, even though they should be eliminated since they're only used in server components.
 
 ## Analysis
 
-In a typical Next.js RSC setup, dead code elimination should automatically remove server-only code from client bundles. However, when using SWC plugins that transform JSX (in this case, `next-yak`), this optimization fails
+In a typical Next.js RSC setup, dead code elimination should automatically remove server-only code from client bundles. However, when using CSS modules in server components, this optimization fails.
 
 ## Technical Details
 
 This is a minimal reproduction with just 20 lines of code demonstrating the issue:
-- A server component (`page.tsx`)
+- A server component (`page.tsx`) that imports a CSS module
 - A client component (`client.tsx`)
-- An SWC transform via next-yak
+- CSS module styling (`page.module.css`)
+
+You can see the evidence in the client bundle at `.next/static/chunks/app/page-[hash].js`:
+```js
+5717: e => {
+    e.exports = {
+        headline: "page_headline__b1Dvh"
+    }
+}
+```

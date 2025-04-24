@@ -1,14 +1,10 @@
-import { styled } from "next-yak";
 import { ClientComponent } from "./client";
-
-const Headline = styled.h1`
-  color: orange;
-`;
+import styles from "./page.module.css";
 
 export default function Page() {
   return (
     <>
-      <Headline>Hello</Headline>
+      <div className={styles.headline}>Hello world</div>
       <ClientComponent />
     </>
   );

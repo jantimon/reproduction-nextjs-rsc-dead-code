@@ -36,3 +36,6 @@ You can see the evidence in the client bundle at `.next/static/chunks/app/page-[
     }
 }
 ```
+
+![Output preview](https://github.com/user-attachments/assets/4eab9b0a-46ec-4869-a3c5-b76cbad9c204)
+
